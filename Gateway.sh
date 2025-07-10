@@ -3,7 +3,7 @@
 sudo dnf update -y
 sudo dnf install -y policycoreutils-python-utils # Útil para SELinux, aunque no lo tocaremos a fondo aquí
 
-# Verifica tus interfaces de red:
+# Identifica tus interfaces de red:
 ip a
 
 sudo nmcli connection modify <nombre_interfaz_lan> ipv4.addresses 10.0.0.1/24 ipv4.method manual connection.autoconnect yes
@@ -29,8 +29,16 @@ sudo firewall-cmd --zone=dmz --set-target=ACCEPT --permanent # Asegura que la zo
 sudo firewall-cmd --zone=public --add-masquerade --permanent
 sudo firewall-cmd --reload
 
+# --- Regla Rich para permitir navegación para las maquinas clientes a través del gateway ---
+# Esta regla permite que las maquinas puedan acceder a internet.
+
 sudo firewall-cmd --zone=public --add-rich-rule='rule family="ipv4" source address="10.0.0.0/24" masquerade' --permanent
 sudo firewall-cmd --zone=public --add-rich-rule='rule family="ipv4" source address="20.0.0.0/24" masquerade' --permanent
+
+# --- Regla Rich para permitir SSH de 10.0.0.0/24 a 20.0.0.0/24 a través del gateway ---
+# Esta regla permite el tráfico SSH desde la zona 'lan' (10.0.0.0/24) a la zona 'dmz' (20.0.0.0/24).
+sudo firewall-cmd --zone=lan --add-rich-rule='rule family="ipv4" destination address="10.0.0.0/24" port port="22" protocol="tcp" accept' --permanent
+sudo firewall-cmd --zone=dmz --add-rich-rule='rule family="ipv4" destination address="20.0.0.0/24" port port="22" protocol="tcp" accept' --permanent
 sudo firewall-cmd --reload
 
 # Explicación de la rich rule:
