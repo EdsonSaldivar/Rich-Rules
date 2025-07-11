@@ -6,7 +6,7 @@ sudo dnf install -y policycoreutils-python-utils # Útil para SELinux, aunque no
 # Identifica tus interfaces de red:
 ip a
 
-#Asigna una IP Estatica tus interfaces de acuerdo al LAN SEGMENT que tengas configurado
+# Asigna una IP Estatica tus interfaces de acuerdo al LAN SEGMENT que tengas configurado en mi caso son 10.0.0.0 y 20.0.0.0
 sudo nmcli connection modify <nombre_interfaz_lan_segment> ipv4.addresses 10.0.0.1/24 ipv4.method manual connection.autoconnect yes
 sudo nmcli connection up <nombre_interfaz_lan_segment>
 
@@ -36,6 +36,7 @@ sudo firewall-cmd --reload
 
 # --- Regla Rich para permitir navegación para las maquinas clientes a través del gateway ---
 # Esta regla permite que las maquinas puedan acceder a internet y comunicarse mediante SSH.
+# No olvides modificar el parametro address="x.x.x.x/x" con el LAN SEGMENT que estes utilizando
 
 sudo firewall-cmd --zone=public --add-rich-rule='rule family="ipv4" source address="10.0.0.0/24" masquerade' --permanent
 sudo firewall-cmd --zone=public --add-rich-rule='rule family="ipv4" source address="20.0.0.0/24" masquerade' --permanent
