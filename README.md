@@ -1,2 +1,4 @@
 # Rich-Rules
-Repositorio para ejemplo de Rich Rules en Rocky Linux 10
+Repositorio para configurar un gateway con rich rules y clientes en distintos segmentos de red:
+
+NO EJECUTES LOS .sh COMO UN SCRIPT, SOLO SON UNA GUÍA DE COMANDOS RAPIDA PERO NO FUERON DISEÑADOS PARA EJECUTARSE Y AUTOMATIZAR LA CONFIGURACIÓN DE LAS MAQUINAS
